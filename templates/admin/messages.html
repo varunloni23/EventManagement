@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Messages - Admin{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Contact Messages</h1>
+            <div>
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary me-2">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">All Messages</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-4" id="messageTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="unread-tab" data-bs-toggle="tab" data-bs-target="#unread" type="button" role="tab" aria-controls="unread" aria-selected="true">Unread</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="read-tab" data-bs-toggle="tab" data-bs-target="#read" type="button" role="tab" aria-controls="read" aria-selected="false">Read</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="false">All</button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="messageTabsContent">
+                    <!-- Unread Messages -->
+                    <div class="tab-pane fade show active" id="unread" role="tabpanel" aria-labelledby="unread-tab">
+                        {% set unread_messages = messages|selectattr('is_read', 'equalto', false)|list %}
+                        {% if unread_messages %}
+                            <div class="list-group">
+                                {% for message in unread_messages %}
+                                    <a href="{{ url_for('admin.view_message', message_id=message.message_id) }}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{ message.name }} <span class="badge bg-primary">New</span></h5>
+                                            <small>{{ message.created_at.strftime('%d %b, %Y') }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ message.message|truncate(100) }}</p>
+                                        <small>{{ message.email }} | {{ message.phone or 'No phone provided' }}</small>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">No unread messages.</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Read Messages -->
+                    <div class="tab-pane fade" id="read" role="tabpanel" aria-labelledby="read-tab">
+                        {% set read_messages = messages|selectattr('is_read', 'equalto', true)|list %}
+                        {% if read_messages %}
+                            <div class="list-group">
+                                {% for message in read_messages %}
+                                    <a href="{{ url_for('admin.view_message', message_id=message.message_id) }}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{ message.name }}</h5>
+                                            <small>{{ message.created_at.strftime('%d %b, %Y') }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ message.message|truncate(100) }}</p>
+                                        <small>{{ message.email }} | {{ message.phone or 'No phone provided' }}</small>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">No read messages.</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- All Messages -->
+                    <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
+                        {% if messages %}
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Message</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for message in messages %}
+                                            <tr>
+                                                <td>{{ message.message_id }}</td>
+                                                <td>{{ message.name }}</td>
+                                                <td>{{ message.email }}</td>
+                                                <td>{{ message.message|truncate(50) }}</td>
+                                                <td>
+                                                    {% if message.is_read %}
+                                                        <span class="badge bg-secondary">Read</span>
+                                                    {% else %}
+                                                        <span class="badge bg-primary">Unread</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ message.created_at.strftime('%d %b, %Y') }}</td>
+                                                <td>
+                                                    <a href="{{ url_for('admin.view_message', message_id=message.message_id) }}" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <form method="POST" action="{{ url_for('admin.delete_message', message_id=message.message_id) }}" class="d-inline">
+                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this message?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">No messages found.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

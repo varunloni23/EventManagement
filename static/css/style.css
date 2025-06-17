@@ -1,0 +1,519 @@
+/* Luxury Event Management Theme */
+
+:root {
+    --primary: #a87c37;
+    --primary-dark: #8a6a2f;
+    --primary-light: #d4b778;
+    --secondary: #1e2b3a;
+    --light: #f8f9fa;
+    --dark: #212529;
+    --gold: #d4af37;
+    --gold-light: #f1e5c4;
+    --cream: #f9f5eb;
+    --charcoal: #333333;
+}
+
+body {
+    font-family: 'Playfair Display', 'Times New Roman', Times, serif;
+    color: var(--charcoal);
+    background-color: var(--cream);
+    line-height: 1.8;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+/* Navbar styling */
+.navbar {
+    padding: 1rem 0;
+    background: linear-gradient(to right, var(--secondary), #2c3e50) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.navbar-scrolled {
+    padding: 0.5rem 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right, rgba(30, 43, 58, 0.95), rgba(44, 62, 80, 0.95)) !important;
+}
+
+.navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    color: var(--gold) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: var(--gold);
+}
+
+.navbar-dark .navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--gold);
+    transition: all 0.3s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover::after {
+    width: 80%;
+    left: 10%;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 0;
+    padding: 0.6rem 1.5rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+.btn:hover::before {
+    left: 0;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: 0 5px 15px rgba(168, 124, 55, 0.3);
+}
+
+.btn-outline-primary {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 5px 15px rgba(168, 124, 55, 0.3);
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1.25rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-footer {
+    background-color: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1.25rem 1.5rem;
+}
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero1.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 12rem 0;
+    position: relative;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Page headers */
+.page-header {
+    background: linear-gradient(rgba(30, 43, 58, 0.8), rgba(30, 43, 58, 0.8)), url('../images/header-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 6rem 0;
+    color: white;
+    position: relative;
+}
+
+.page-header h1 {
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.page-header .lead {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Service and venue cards */
+.service-card, .venue-card {
+    overflow: hidden;
+    border-radius: 0;
+}
+
+.service-card img, .venue-card img {
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.service-card:hover img, .venue-card:hover img {
+    transform: scale(1.05);
+}
+
+.service-card .card-title, .venue-card .card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--secondary);
+}
+
+.service-card .price, .venue-card .price {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Venue overlay */
+.venue-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.venue-card:hover .venue-overlay {
+    opacity: 1;
+}
+
+.venue-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.venue-capacity, .venue-rating {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.venue-location {
+    font-size: 0.9rem;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+}
+
+/* Overlay gradient */
+.overlay-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.service-card:hover .overlay-gradient,
+.venue-card:hover .overlay-gradient {
+    opacity: 1;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(to right, var(--secondary), #2c3e50);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 5rem 0 2rem;
+}
+
+footer h5 {
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+}
+
+footer a.text-white {
+    transition: color 0.3s ease;
+}
+
+footer a.text-white:hover {
+    color: var(--gold) !important;
+    text-decoration: none;
+}
+
+.social-icons a {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: var(--gold);
+    transform: translateY(-3px);
+}
+
+/* Form controls */
+.form-control {
+    border-radius: 0;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: var(--primary);
+}
+
+/* Dashboard styling */
+.dashboard-section .card {
+    margin-bottom: 2rem;
+}
+
+.dashboard-section .bg-primary {
+    background-color: var(--primary) !important;
+}
+
+.dashboard-section .bg-success {
+    background-color: #2c7873 !important;
+}
+
+.dashboard-section .bg-info {
+    background-color: #5b7b7a !important;
+}
+
+/* Testimonial styling */
+.testimonial-card {
+    background-color: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.testimonial-card::before {
+    content: '"';
+    font-family: 'Georgia', serif;
+    font-size: 5rem;
+    color: var(--gold-light);
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    line-height: 1;
+    opacity: 0.3;
+}
+
+.testimonial-card .quote {
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+}
+
+.testimonial-card .author {
+    font-weight: 600;
+    color: var(--primary);
+    margin-top: 1rem;
+}
+
+/* Table styling */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table thead th {
+    background-color: var(--cream);
+    border-bottom: 2px solid var(--gold-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    color: var(--charcoal);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(212, 175, 55, 0.05);
+}
+
+/* CTA section */
+.cta-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/cta-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 5rem 0;
+    color: white;
+}
+
+.cta-section h2 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--gold);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Gold accent for first letter */
+.first-letter {
+    color: var(--gold);
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+/* Card hover effect */
+.card-hover {
+    border-bottom: 3px solid var(--gold);
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    border-radius: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 0.5rem 0;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: rgba(168, 124, 55, 0.1);
+    color: var(--primary);
+}
+
+/* Footer links styling */
+.footer-links li {
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.footer-links li:hover {
+    transform: translateX(5px);
+}
+
+.footer-links a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+/* Contact info styling */
+.contact-info li {
+    margin-bottom: 1rem;
+}
+
+.contact-info i {
+    color: var(--gold);
+    width: 20px;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .hero-section {
+        padding: 8rem 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hero-section {
+        padding: 6rem 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .page-header {
+        padding: 4rem 0;
+    }
+} 

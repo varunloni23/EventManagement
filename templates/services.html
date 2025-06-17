@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Services - Event Management{% endblock %}
+
+{% block content %}
+<section class="page-header bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4">Our Services</h1>
+                <p class="lead">Comprehensive event management services for all your needs</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="services-section py-5">
+    <div class="container">
+        {% for category in categories %}
+            <div class="service-category mb-5">
+                <h2 class="category-title mb-4">{{ category.name }}</h2>
+                <div class="row">
+                    {% if services_by_category[category.category_id] %}
+                        {% for service in services_by_category[category.category_id] %}
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100 service-card">
+                                    <img src="{{ service.image_path if service.image_path else url_for('static', filename='images/service-placeholder.jpg') }}" 
+                                         class="card-img-top" alt="{{ service.name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ service.name }}</h5>
+                                        <p class="card-text">{{ service.description|truncate(100) }}</p>
+                                        {% if service.price %}
+                                            <p class="price">₹{{ service.price }}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-footer bg-white border-0">
+                                        <a href="{{ url_for('common.service_detail', service_id=service.service_id) }}" class="btn btn-outline-primary">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <p>No services available in this category.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% if not loop.last %}<hr class="my-5">{% endif %}
+        {% endfor %}
+        
+        {% if not categories %}
+            <div class="text-center py-5">
+                <h3>No service categories available at the moment.</h3>
+                <p>Please check back later for our services.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="cta-section bg-primary text-white py-5 text-center">
+    <div class="container">
+        <h2>Ready to Plan Your Event?</h2>
+        <p class="lead">Contact us today to discuss your event requirements</p>
+        <a href="{{ url_for('common.contact') }}" class="btn btn-light btn-lg mt-3">Contact Us</a>
+    </div>
+</section>
+{% endblock %} 

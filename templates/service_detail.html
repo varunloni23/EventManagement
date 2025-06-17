@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ service.name }} - Event Management{% endblock %}
+
+{% block content %}
+<section class="page-header bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4">{{ service.name }}</h1>
+                <p class="lead">{{ service.category_name }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="service-detail py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="service-image mb-4">
+                    <img src="{{ service.image_path if service.image_path else url_for('static', filename='images/service-placeholder.jpg') }}" 
+                         class="img-fluid rounded" alt="{{ service.name }}">
+                </div>
+                <div class="service-description">
+                    <h2>Description</h2>
+                    <p>{{ service.description }}</p>
+                </div>
+                
+                <div class="mt-5">
+                    <h3>Book This Service</h3>
+                    <p>Interested in booking this service for your event?</p>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('customer.book_event') }}" class="btn btn-primary">Book Now</a>
+                    {% else %}
+                        <p>Please <a href="{{ url_for('auth.login') }}">login</a> or <a href="{{ url_for('auth.register') }}">register</a> to book this service.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="service-info card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Service Details</h3>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><strong>Category:</strong> {{ service.category_name }}</li>
+                            {% if service.price %}
+                                <li class="mb-2"><strong>Price:</strong> ₹{{ service.price }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="contact-info card">
+                    <div class="card-body">
+                        <h3 class="card-title">Need more information?</h3>
+                        <p>Contact us for more details about this service.</p>
+                        <a href="{{ url_for('common.contact') }}" class="btn btn-outline-primary w-100">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if related_services %}
+<section class="related-services py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Related Services</h2>
+        <div class="row">
+            {% for related in related_services %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 service-card">
+                        <img src="{{ related.image_path if related.image_path else url_for('static', filename='images/service-placeholder.jpg') }}" 
+                             class="card-img-top" alt="{{ related.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ related.name }}</h5>
+                            <p class="card-text">{{ related.description|truncate(100) }}</p>
+                            {% if related.price %}
+                                <p class="price">₹{{ related.price }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="{{ url_for('common.service_detail', service_id=related.service_id) }}" class="btn btn-outline-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %} 

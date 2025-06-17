@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile - Event Management{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4 fw-bold mb-3">My Profile</h1>
+                <p class="lead">Manage your personal information and account settings</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Profile Content -->
+<section class="py-5">
+    <div class="container py-3">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <div class="avatar-placeholder mb-3 mx-auto" style="width: 100px; height: 100px; background-color: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">
+                                {{ current_user.first_name[0] }}{{ current_user.last_name[0] }}
+                            </div>
+                            <h5 class="mb-1">{{ current_user.first_name }} {{ current_user.last_name }}</h5>
+                            <p class="text-muted mb-0">{{ current_user.email }}</p>
+                        </div>
+                        <hr>
+                        <nav class="dashboard-nav">
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-2">
+                                    <a href="{{ url_for('customer.dashboard') }}" class="d-flex align-items-center py-2 px-3 text-dark text-decoration-none">
+                                        <i class="fas fa-tachometer-alt me-3" style="color: var(--primary);"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="{{ url_for('customer.bookings') }}" class="d-flex align-items-center py-2 px-3 text-dark text-decoration-none">
+                                        <i class="fas fa-calendar-check me-3" style="color: var(--primary);"></i>
+                                        <span>My Bookings</span>
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="{{ url_for('customer.book_event') }}" class="d-flex align-items-center py-2 px-3 text-dark text-decoration-none">
+                                        <i class="fas fa-calendar-plus me-3" style="color: var(--primary);"></i>
+                                        <span>Book New Event</span>
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="{{ url_for('auth.profile') }}" class="d-flex align-items-center py-2 px-3 text-dark text-decoration-none active" style="background-color: rgba(168, 124, 55, 0.1);">
+                                        <i class="fas fa-user-edit me-3" style="color: var(--primary);"></i>
+                                        <span>Edit Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('auth.logout') }}" class="d-flex align-items-center py-2 px-3 text-dark text-decoration-none">
+                                        <i class="fas fa-sign-out-alt me-3" style="color: var(--primary);"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="card border-0 shadow-sm" data-aos="fade-up">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Personal Information</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="POST" action="{{ url_for('auth.profile') }}">
+                            {{ form.csrf_token }}
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="first_name" class="form-label">First Name</label>
+                                    {{ form.first_name(class="form-control", placeholder="Enter your first name") }}
+                                    {% if form.first_name.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.first_name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    {{ form.last_name(class="form-control", placeholder="Enter your last name") }}
+                                    {% if form.last_name.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.last_name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                {{ form.email(class="form-control", placeholder="Enter your email address") }}
+                                {% if form.email.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                {{ form.phone(class="form-control", placeholder="Enter your phone number") }}
+                                {% if form.phone.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.phone.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                {{ form.address(class="form-control", placeholder="Enter your address", rows="3") }}
+                                {% if form.address.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.address.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Change Password -->
+                <div class="card border-0 shadow-sm mt-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Change Password</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="POST" action="{{ url_for('auth.change_password') }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            
+                            <div class="mb-3">
+                                <label for="current_password" class="form-label">Current Password</label>
+                                <input type="password" class="form-control" id="current_password" name="current_password" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="new_password" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="new_password" name="new_password" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="confirm_password" class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Change Password</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Account Settings -->
+                <div class="card border-0 shadow-sm mt-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Account Settings</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <h6 class="mb-3">Email Notifications</h6>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="notifyEvents" checked>
+                                <label class="form-check-label" for="notifyEvents">Event updates and reminders</label>
+                            </div>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="notifyPromotions" checked>
+                                <label class="form-check-label" for="notifyPromotions">Promotions and special offers</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="notifyNewsletter" checked>
+                                <label class="form-check-label" for="notifyNewsletter">Newsletter</label>
+                            </div>
+                        </div>
+                        
+                        <div class="border-top pt-4">
+                            <h6 class="text-danger">Danger Zone</h6>
+                            <p class="text-muted small">Once you delete your account, there is no going back. Please be certain.</p>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="fas fa-exclamation-triangle text-danger fa-3x"></i>
+                    <h4 class="mt-3">Are you sure?</h4>
+                    <p class="text-muted">This will permanently delete your account and all associated data. This action cannot be undone.</p>
+                </div>
+                <form>
+                    <div class="mb-3">
+                        <label for="deleteConfirm" class="form-label">Type "DELETE" to confirm</label>
+                        <input type="text" class="form-control" id="deleteConfirm" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete" disabled>Delete Account</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Delete account confirmation
+    document.getElementById('deleteConfirm').addEventListener('input', function() {
+        const confirmBtn = document.getElementById('confirmDelete');
+        if (this.value === 'DELETE') {
+            confirmBtn.disabled = false;
+        } else {
+            confirmBtn.disabled = true;
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %} 

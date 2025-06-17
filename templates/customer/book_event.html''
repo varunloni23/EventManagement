@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Book an Event - Event Management Kerala{% endblock %}
+
+{% block content %}
+<section class="page-header bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4">Book an Event</h1>
+                <p class="lead">Fill out the form below to book your event</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="booking-section py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Navigation</h5>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="{{ url_for('customer.dashboard') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </a>
+                        <a href="{{ url_for('customer.bookings') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-calendar-alt me-2"></i> My Bookings
+                        </a>
+                        <a href="{{ url_for('customer.book_event') }}" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-plus-circle me-2"></i> Book New Event
+                        </a>
+                        <a href="{{ url_for('auth.profile') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user me-2"></i> My Profile
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Need Help?</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>If you need assistance with booking your event, please contact our customer service team.</p>
+                        <a href="{{ url_for('common.contact') }}" class="btn btn-outline-primary w-100">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Event Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ url_for('customer.book_event') }}">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="event_name" class="form-label">Event Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="event_name" name="event_name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="event_type" class="form-label">Event Type <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="event_type" name="event_type" required>
+                                        <option value="" selected disabled>Select event type</option>
+                                        <option value="Wedding">Wedding</option>
+                                        <option value="Corporate">Corporate Event</option>
+                                        <option value="Birthday">Birthday Party</option>
+                                        <option value="Anniversary">Anniversary Celebration</option>
+                                        <option value="Conference">Conference</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="event_date" class="form-label">Event Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="event_date" name="event_date" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="start_time" class="form-label">Start Time <span class="text-danger">*</span></label>
+                                    <input type="time" class="form-control" id="start_time" name="start_time" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="end_time" class="form-label">End Time <span class="text-danger">*</span></label>
+                                    <input type="time" class="form-control" id="end_time" name="end_time" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="guest_count" class="form-label">Number of Guests <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="guest_count" name="guest_count" min="1" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="venue_id" class="form-label">Venue</label>
+                                <select class="form-select" id="venue_id" name="venue_id">
+                                    <option value="">No venue (I'll arrange my own)</option>
+                                    {% for venue in venues %}
+                                        <option value="{{ venue.venue_id }}">{{ venue.name }} - ₹{{ venue.price_per_day|int }} (Capacity: {{ venue.capacity }})</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <h5 class="mb-3">Select Services</h5>
+                            <div class="row mb-4">
+                                {% for service in services %}
+                                    <div class="col-md-6 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="services" value="{{ service.service_id }}" id="service{{ service.service_id }}">
+                                            <label class="form-check-label" for="service{{ service.service_id }}">
+                                                {{ service.name }} - ₹{{ service.price|int }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Submit Booking</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('event_date').setAttribute('min', today);
+    
+    // Validate end time is after start time
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const startTime = document.getElementById('start_time').value;
+        const endTime = document.getElementById('end_time').value;
+        
+        if (startTime >= endTime) {
+            e.preventDefault();
+            alert('End time must be after start time');
+        }
+    });
+</script>
+{% endblock %} 

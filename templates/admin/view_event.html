@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}Event Details - Admin{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Event Details</h1>
+            <div>
+                <a href="{{ url_for('admin.events') }}" class="btn btn-outline-secondary me-2">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Events
+                </a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Event Information</h5>
+                            <span class="badge {% if event.status == 'confirmed' %}bg-success{% elif event.status == 'pending' %}bg-warning text-dark{% elif event.status == 'cancelled' %}bg-danger{% else %}bg-info{% endif %}">
+                                {{ event.status|capitalize }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h4 class="mb-3">{{ event.event_name }}</h4>
+                                <p class="text-muted mb-1"><i class="fas fa-tag me-2"></i> {{ event.event_type }}</p>
+                                <p class="text-muted mb-1"><i class="fas fa-calendar me-2"></i> {{ event.event_date.strftime('%d %b, %Y') }}</p>
+                                <p class="text-muted mb-1"><i class="fas fa-clock me-2"></i> {{ event.start_time }} - {{ event.end_time }}</p>
+                                <p class="text-muted mb-1"><i class="fas fa-users me-2"></i> {{ event.guest_count }} Guests</p>
+                                <p class="text-muted mb-1"><i class="fas fa-calendar-plus me-2"></i> Booked on {{ event.created_at.strftime('%d %b, %Y') }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="booking-summary p-3 rounded" style="background-color: #f8f9fa;">
+                                    <h5 class="mb-3">Booking Summary</h5>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Booking ID:</span>
+                                        <span class="fw-bold">{{ event.event_id }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Status:</span>
+                                        <span class="fw-bold">{{ event.status|capitalize }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Total Amount:</span>
+                                        <span class="fw-bold">₹{{ '{:,.0f}'.format(event.total_amount) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <!-- Venue Information -->
+                        <h5 class="mb-3">Venue Details</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="venue-card p-3 rounded" style="background-color: #f8f9fa;">
+                                    <h6 class="mb-2">{{ event.venue_name or 'Venue not specified' }}</h6>
+                                    {% if event.venue_address %}
+                                        <p class="text-muted mb-2"><i class="fas fa-map-marker-alt me-2"></i> {{ event.venue_address }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Services Information -->
+                        <h5 class="mb-3">Services Booked</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Description</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for service in services %}
+                                    <tr>
+                                        <td>{{ service.name }}</td>
+                                        <td>{{ service.description }}</td>
+                                        <td>{{ service.quantity }}</td>
+                                        <td>₹{{ '{:,.0f}'.format(service.price) }}</td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">No services booked</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        {% if event.status == 'pending' %}
+                        <div class="mt-4 d-flex justify-content-end">
+                            <form method="POST" action="{{ url_for('admin.update_event_status', event_id=event.event_id, status='confirmed') }}" class="d-inline me-2">
+                                <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to confirm this event?')">
+                                    <i class="fas fa-check me-2"></i>Confirm Event
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ url_for('admin.update_event_status', event_id=event.event_id, status='cancelled') }}" class="d-inline">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this event?')">
+                                    <i class="fas fa-times me-2"></i>Cancel Event
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Customer Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="mb-3">{{ event.first_name }} {{ event.last_name }}</h6>
+                        <p class="text-muted mb-2"><i class="fas fa-envelope me-2"></i> {{ event.email }}</p>
+                        <p class="text-muted mb-2"><i class="fas fa-phone me-2"></i> {{ event.phone or 'Not provided' }}</p>
+                    </div>
+                </div>
+                
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="mailto:{{ event.email }}" class="btn btn-outline-primary">
+                                <i class="fas fa-envelope me-2"></i>Email Customer
+                            </a>
+                            {% if event.status == 'confirmed' %}
+                                <form method="POST" action="{{ url_for('admin.update_event_status', event_id=event.event_id, status='completed') }}" class="d-grid">
+                                    <button type="submit" class="btn btn-outline-success" onclick="return confirm('Are you sure you want to mark this event as completed?')">
+                                        <i class="fas fa-check-circle me-2"></i>Mark as Completed
+                                    </button>
+                                </form>
+                            {% elif event.status == 'pending' %}
+                                <form method="POST" action="{{ url_for('admin.update_event_status', event_id=event.event_id, status='confirmed') }}" class="d-grid">
+                                    <button type="submit" class="btn btn-outline-success" onclick="return confirm('Are you sure you want to confirm this event?')">
+                                        <i class="fas fa-check me-2"></i>Confirm Event
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ url_for('admin.update_event_status', event_id=event.event_id, status='cancelled') }}" class="d-grid">
+                                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to cancel this event?')">
+                                        <i class="fas fa-times me-2"></i>Cancel Event
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

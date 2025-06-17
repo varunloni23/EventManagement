@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookings - Event Management Kerala{% endblock %}
+
+{% block content %}
+<section class="page-header bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4">My Bookings</h1>
+                <p class="lead">Manage your event bookings</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bookings-section py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Navigation</h5>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="{{ url_for('customer.dashboard') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </a>
+                        <a href="{{ url_for('customer.bookings') }}" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-calendar-alt me-2"></i> My Bookings
+                        </a>
+                        <a href="{{ url_for('customer.book_event') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus-circle me-2"></i> Book New Event
+                        </a>
+                        <a href="{{ url_for('auth.profile') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user me-2"></i> My Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">All Bookings</h5>
+                        <a href="{{ url_for('customer.book_event') }}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-plus me-1"></i> Book New Event
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        {% if events %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Event Name</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                            <th>Venue</th>
+                                            <th>Status</th>
+                                            <th>Amount</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for event in events %}
+                                            <tr>
+                                                <td>{{ event.event_name }}</td>
+                                                <td>{{ event.event_type }}</td>
+                                                <td>{{ event.event_date.strftime('%d %b, %Y') }}</td>
+                                                <td>{{ event.venue_name if event.venue_name else 'Not specified' }}</td>
+                                                <td>
+                                                    {% if event.status == 'pending' %}
+                                                        <span class="badge bg-warning">Pending</span>
+                                                    {% elif event.status == 'confirmed' %}
+                                                        <span class="badge bg-success">Confirmed</span>
+                                                    {% elif event.status == 'cancelled' %}
+                                                        <span class="badge bg-danger">Cancelled</span>
+                                                    {% elif event.status == 'completed' %}
+                                                        <span class="badge bg-info">Completed</span>
+                                                    {% else %}
+                                                        <span class="badge bg-secondary">{{ event.status }}</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>₹{{ event.total_amount|int }}</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary view-details" data-bs-toggle="modal" data-bs-target="#eventDetailsModal" 
+                                                            data-event-id="{{ event.event_id }}" data-event-name="{{ event.event_name }}">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    {% if event.status == 'pending' %}
+                                                        <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelEventModal"
+                                                                data-event-id="{{ event.event_id }}" data-event-name="{{ event.event_name }}">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-5">
+                                <p>You haven't booked any events yet.</p>
+                                <a href="{{ url_for('customer.book_event') }}" class="btn btn-primary">Book Your First Event</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Event Details Modal -->
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Event Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Loading event details...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Event Modal -->
+<div class="modal fade" id="cancelEventModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cancel Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel <span id="cancelEventName"></span>?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form id="cancelEventForm" method="POST" action="">
+                    <button type="submit" class="btn btn-danger">Cancel Event</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Handle event details modal
+    document.querySelectorAll('.view-details').forEach(button => {
+        button.addEventListener('click', function() {
+            const eventId = this.getAttribute('data-event-id');
+            const eventName = this.getAttribute('data-event-name');
+            const modalTitle = document.querySelector('#eventDetailsModal .modal-title');
+            const modalBody = document.querySelector('#eventDetailsModal .modal-body');
+            
+            modalTitle.textContent = eventName;
+            modalBody.innerHTML = '<p class="text-center">Loading event details...</p>';
+            
+            // In a real application, you would fetch event details via AJAX
+            // For now, we'll just show a placeholder
+            setTimeout(() => {
+                modalBody.innerHTML = `
+                    <div class="text-center py-4">
+                        <p>This is a placeholder for event details.</p>
+                        <p>In a real application, this would show detailed information about the event.</p>
+                    </div>
+                `;
+            }, 500);
+        });
+    });
+    
+    // Handle cancel event modal
+    document.getElementById('cancelEventModal').addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const eventId = button.getAttribute('data-event-id');
+        const eventName = button.getAttribute('data-event-name');
+        
+        document.getElementById('cancelEventName').textContent = eventName;
+        document.getElementById('cancelEventForm').action = `/customer/cancel-event/${eventId}`;
+    });
+</script>
+{% endblock %}
+{% endblock %} 

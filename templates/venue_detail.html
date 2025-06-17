@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ venue.name }} - Event Management{% endblock %}
+
+{% block content %}
+<section class="page-header bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4">{{ venue.name }}</h1>
+                <p class="lead">{{ venue.city }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="venue-detail py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="venue-image mb-4">
+                    <img src="{{ venue.image_path if venue.image_path else url_for('static', filename='images/venue-placeholder.jpg') }}" 
+                         class="img-fluid rounded" alt="{{ venue.name }}">
+                </div>
+                <div class="venue-description">
+                    <h2>Description</h2>
+                    <p>{{ venue.description }}</p>
+                </div>
+                
+                <div class="venue-address mt-4">
+                    <h3>Address</h3>
+                    <p>{{ venue.address }}</p>
+                    <div class="map-container mt-3">
+                        <!-- Placeholder for map -->
+                        <div class="bg-light p-5 text-center">
+                            <p class="mb-0">Map location will be displayed here</p>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if gallery_items %}
+                <div class="venue-gallery mt-5">
+                    <h3>Gallery</h3>
+                    <div class="row">
+                        {% for item in gallery_items %}
+                            <div class="col-md-4 mb-4">
+                                <div class="gallery-item">
+                                    <img src="{{ item.image_path if item.image_path else url_for('static', filename='images/venue-placeholder.jpg') }}" 
+                                         class="img-fluid rounded" alt="{{ item.title if item.title else 'Gallery image' }}">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="mt-5">
+                    <h3>Book This Venue</h3>
+                    <p>Interested in booking this venue for your event?</p>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('customer.book_event') }}" class="btn btn-primary">Book Now</a>
+                    {% else %}
+                        <p>Please <a href="{{ url_for('auth.login') }}">login</a> or <a href="{{ url_for('auth.register') }}">register</a> to book this venue.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="venue-info card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Venue Details</h3>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><strong>Location:</strong> {{ venue.city }}</li>
+                            <li class="mb-2"><strong>Capacity:</strong> {{ venue.capacity }} people</li>
+                            {% if venue.price_per_day %}
+                                <li class="mb-2"><strong>Price:</strong> ₹{{ venue.price_per_day }} per day</li>
+                            {% endif %}
+                            {% if venue.rating %}
+                                <li class="mb-2">
+                                    <strong>Rating:</strong> 
+                                    <span class="rating">
+                                        <span class="me-1">{{ venue.rating }}</span>
+                                        {% for i in range(5) %}
+                                            {% if i < venue.rating|int %}
+                                                <i class="fas fa-star text-warning"></i>
+                                            {% elif i < venue.rating|round(0, 'ceil')|int %}
+                                                <i class="fas fa-star-half-alt text-warning"></i>
+                                            {% else %}
+                                                <i class="far fa-star text-warning"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="contact-info card">
+                    <div class="card-body">
+                        <h3 class="card-title">Need more information?</h3>
+                        <p>Contact us for more details about this venue.</p>
+                        <a href="{{ url_for('common.contact') }}" class="btn btn-outline-primary w-100">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

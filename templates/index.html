@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block title %}Event Management Kerala - Luxury Event Planning Services{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section position-relative">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ url_for('static', filename='images/hero1.jpg') }}'); background-size: cover; background-position: center; height: 90vh;">
+                <div class="carousel-caption text-start" style="top: 50%; transform: translateY(-50%); bottom: auto;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8" data-aos="fade-right">
+                                <h5 class="text-uppercase mb-3" style="letter-spacing: 5px; color: #d4af37;">Welcome to</h5>
+                                <h1 class="display-3 fw-bold mb-4">Event Management Kerala</h1>
+                                <p class="lead mb-4">Creating unforgettable moments with elegance and precision</p>
+                                <div class="mt-5">
+                                    <a href="{{ url_for('common.services') }}" class="btn btn-primary btn-lg me-3">Our Services</a>
+                                    <a href="{{ url_for('common.contact') }}" class="btn btn-outline-light btn-lg">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ url_for('static', filename='images/hero2.jpg') }}'); background-size: cover; background-position: center; height: 90vh;">
+                <div class="carousel-caption text-start" style="top: 50%; transform: translateY(-50%); bottom: auto;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8" data-aos="fade-right">
+                                <h5 class="text-uppercase mb-3" style="letter-spacing: 5px; color: #d4af37;">Luxury Weddings</h5>
+                                <h1 class="display-3 fw-bold mb-4">Your Dream Wedding Awaits</h1>
+                                <p class="lead mb-4">Experience the perfect blend of tradition and elegance</p>
+                                <div class="mt-5">
+                                    <a href="{{ url_for('common.services') }}" class="btn btn-primary btn-lg">Wedding Services</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ url_for('static', filename='images/hero3.jpg') }}'); background-size: cover; background-position: center; height: 90vh;">
+                <div class="carousel-caption text-start" style="top: 50%; transform: translateY(-50%); bottom: auto;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8" data-aos="fade-right">
+                                <h5 class="text-uppercase mb-3" style="letter-spacing: 5px; color: #d4af37;">Corporate Events</h5>
+                                <h1 class="display-3 fw-bold mb-4">Elevate Your Business Events</h1>
+                                <p class="lead mb-4">Professional planning for conferences, meetings and corporate functions</p>
+                                <div class="mt-5">
+                                    <a href="{{ url_for('common.services') }}" class="btn btn-primary btn-lg">Corporate Services</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <div class="position-relative">
+                    <img src="{{ url_for('static', filename='images/about.jpg') }}" class="img-fluid" alt="About Us" style="box-shadow: 0 15px 30px rgba(0,0,0,0.1);">
+                    <div class="position-absolute" style="bottom: -20px; right: -20px; background-color: #a87c37; padding: 20px; color: white;">
+                        <h3 class="mb-0">15+ Years</h3>
+                        <p class="mb-0">of Excellence</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h6 class="text-uppercase fw-bold" style="letter-spacing: 3px; color: #a87c37;">About Us</h6>
+                <h2 class="display-5 mb-4">Kerala's Premier Luxury Event Management Company</h2>
+                <p class="lead mb-4">We specialize in creating extraordinary events that leave lasting impressions. From intimate gatherings to grand celebrations, our team brings creativity, precision, and elegance to every occasion.</p>
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3" style="color: #a87c37;">
+                                <i class="fas fa-check-circle fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Expert Planning</h5>
+                                <p class="mb-0">Professional event coordinators</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3" style="color: #a87c37;">
+                                <i class="fas fa-check-circle fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Premium Venues</h5>
+                                <p class="mb-0">Handpicked luxury locations</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3" style="color: #a87c37;">
+                                <i class="fas fa-check-circle fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Exquisite Catering</h5>
+                                <p class="mb-0">Gourmet culinary experiences</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3" style="color: #a87c37;">
+                                <i class="fas fa-check-circle fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Personalized Service</h5>
+                                <p class="mb-0">Tailored to your preferences</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ url_for('common.about') }}" class="btn btn-outline-primary">Learn More About Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h6 class="text-uppercase fw-bold" style="letter-spacing: 3px; color: #a87c37;">Our Services</h6>
+            <h2 class="display-5 mb-3">Exceptional Event Services</h2>
+            <p class="lead mx-auto" style="max-width: 700px;">Discover our comprehensive range of premium event management services designed to create unforgettable experiences.</p>
+        </div>
+        <div class="row">
+            {% for service in services %}
+                <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card service-card h-100">
+                        <div class="position-relative overflow-hidden">
+                            <img src="{{ service.image_path if service.image_path else url_for('static', filename='images/service-placeholder.jpg') }}" class="card-img-top" alt="{{ service.name }}">
+                            <div class="overlay-gradient"></div>
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ service.name }}</h5>
+                            <p class="card-text">{{ service.description|truncate(100) }}</p>
+                            <a href="{{ url_for('common.service_detail', service_id=service.service_id) }}" class="btn btn-outline-primary btn-sm">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a href="{{ url_for('common.services') }}" class="btn btn-primary">View All Services</a>
+        </div>
+    </div>
+</section>
+
+<!-- Venues Section -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h6 class="text-uppercase fw-bold" style="letter-spacing: 3px; color: #a87c37;">Our Venues</h6>
+            <h2 class="display-5 mb-3">Exquisite Event Locations</h2>
+            <p class="lead mx-auto" style="max-width: 700px;">Discover our handpicked selection of stunning venues that provide the perfect backdrop for your special occasion.</p>
+        </div>
+        <div class="row">
+            {% for venue in venues %}
+                <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card venue-card h-100">
+                        <div class="position-relative overflow-hidden">
+                            <img src="{{ venue.image_path if venue.image_path else url_for('static', filename='images/venue-placeholder.jpg') }}" class="card-img-top" alt="{{ venue.name }}">
+                            <div class="venue-overlay">
+                                <div class="venue-details">
+                                    <span class="venue-capacity"><i class="fas fa-users me-2"></i>{{ venue.capacity }} Guests</span>
+                                    {% if venue.rating %}
+                                        <span class="venue-rating">
+                                            <i class="fas fa-star me-1 text-warning"></i>{{ venue.rating }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ venue.name }}</h5>
+                            <p class="venue-location"><i class="fas fa-map-marker-alt me-2" style="color: #a87c37;"></i>{{ venue.city }}</p>
+                            <p class="card-text">{{ venue.description|truncate(80) }}</p>
+                            {% if venue.price_per_day %}
+                                <p class="price">₹{{ venue.price_per_day|int }} per day</p>
+                            {% endif %}
+                            <a href="{{ url_for('common.venue_detail', venue_id=venue.venue_id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a href="{{ url_for('common.venues') }}" class="btn btn-primary">View All Venues</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5" style="background: linear-gradient(rgba(30, 43, 58, 0.9), rgba(30, 43, 58, 0.9)), url('{{ url_for('static', filename='images/testimonial-bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; color: white;">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h6 class="text-uppercase fw-bold" style="letter-spacing: 3px; color: #d4af37;">Testimonials</h6>
+            <h2 class="display-5 mb-3">What Our Clients Say</h2>
+            <p class="lead mx-auto" style="max-width: 700px;">Hear from our satisfied clients about their experience with our event management services.</p>
+        </div>
+        <div class="row">
+            {% for testimonial in testimonials %}
+                <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating mb-3">
+                            {% for i in range(5) %}
+                                {% if i < testimonial.rating %}
+                                    <i class="fas fa-star text-warning"></i>
+                                {% else %}
+                                    <i class="far fa-star text-warning"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="quote">{{ testimonial.comment|truncate(150) }}</p>
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="testimonial-avatar me-3">
+                                <div style="width: 50px; height: 50px; background-color: #a87c37; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 20px;">
+                                    {{ testimonial.first_name[0] }}{{ testimonial.last_name[0] }}
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="author mb-0">{{ testimonial.first_name }} {{ testimonial.last_name }}</h5>
+                                <small class="text-white-50">Satisfied Client</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Blog Section -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h6 class="text-uppercase fw-bold" style="letter-spacing: 3px; color: #a87c37;">Our Blog</h6>
+            <h2 class="display-5 mb-3">Latest Articles & Insights</h2>
+            <p class="lead mx-auto" style="max-width: 700px;">Stay updated with the latest trends, tips, and stories from the world of event management.</p>
+        </div>
+        <div class="row">
+            {% for post in blog_posts %}
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="position-relative">
+                            <img src="{{ post.image_path if post.image_path else url_for('static', filename='images/blog-placeholder.jpg') }}" class="card-img-top" alt="{{ post.title }}" style="height: 220px; object-fit: cover;">
+                            <div class="position-absolute" style="bottom: 0; left: 0; background-color: #a87c37; color: white; padding: 8px 15px;">
+                                <small>{{ post.published_at.strftime('%d %b, %Y') }}</small>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text text-muted">{{ post.content|truncate(120) }}</p>
+                            <a href="{{ url_for('common.blog_detail', blog_id=post.post_id) }}" class="btn btn-link p-0" style="color: #a87c37;">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a href="{{ url_for('common.blog') }}" class="btn btn-primary">View All Articles</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center" data-aos="zoom-in">
+                <h2 class="display-4 mb-4">Ready to Plan Your Perfect Event?</h2>
+                <p class="lead mb-5">Let us help you create an unforgettable experience tailored to your vision and requirements.</p>
+                <div class="d-flex justify-content-center">
+                    <a href="{{ url_for('common.contact') }}" class="btn btn-primary btn-lg me-3">Contact Us</a>
+                    <a href="{{ url_for('common.services') }}" class="btn btn-outline-light btn-lg">Our Services</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

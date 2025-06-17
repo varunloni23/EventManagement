@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Venues - Event Management{% endblock %}
+
+{% block content %}
+<section class="page-header bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4">Our Venues</h1>
+                <p class="lead">Discover the perfect location for your next event</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="venues-section py-5">
+    <div class="container">
+        <div class="row">
+            {% if venues %}
+                {% for venue in venues %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 venue-card">
+                            <img src="{{ venue.image_path if venue.image_path else url_for('static', filename='images/venue-placeholder.jpg') }}" 
+                                 class="card-img-top" alt="{{ venue.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ venue.name }}</h5>
+                                <p class="card-text">{{ venue.description|truncate(100) }}</p>
+                                <div class="venue-details mb-3">
+                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i> {{ venue.city }}</p>
+                                    <p class="mb-1"><i class="fas fa-users me-2"></i> Capacity: {{ venue.capacity }} people</p>
+                                    {% if venue.price_per_day %}
+                                        <p class="mb-1"><i class="fas fa-rupee-sign me-2"></i> ₹{{ venue.price_per_day }} per day</p>
+                                    {% endif %}
+                                    {% if venue.rating %}
+                                        <div class="rating">
+                                            <span class="me-1">{{ venue.rating }}</span>
+                                            {% for i in range(5) %}
+                                                {% if i < venue.rating|int %}
+                                                    <i class="fas fa-star text-warning"></i>
+                                                {% elif i < venue.rating|round(0, 'ceil')|int %}
+                                                    <i class="fas fa-star-half-alt text-warning"></i>
+                                                {% else %}
+                                                    <i class="far fa-star text-warning"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white border-0">
+                                <a href="{{ url_for('common.venue_detail', venue_id=venue.venue_id) }}" class="btn btn-outline-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center py-5">
+                    <h3>No venues available at the moment.</h3>
+                    <p>Please check back later for our venue listings.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="cta-section bg-primary text-white py-5 text-center">
+    <div class="container">
+        <h2>Looking for a Custom Venue?</h2>
+        <p class="lead">We can help you find the perfect venue for your specific requirements</p>
+        <a href="{{ url_for('common.contact') }}" class="btn btn-light btn-lg mt-3">Contact Us</a>
+    </div>
+</section>
+{% endblock %} 

@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block title %}Testimonials Management - Admin{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Testimonials Management</h1>
+            <div>
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary me-2">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">All Testimonials</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-4" id="testimonialTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="pending" aria-selected="true">Pending</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approved" type="button" role="tab" aria-controls="approved" aria-selected="false">Approved</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="false">All</button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="testimonialTabsContent">
+                    <!-- Pending Testimonials -->
+                    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                        {% set pending_testimonials = testimonials|selectattr('is_approved', 'equalto', false)|list %}
+                        {% if pending_testimonials %}
+                            <div class="row">
+                                {% for testimonial in pending_testimonials %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <h5 class="card-title mb-0">{{ testimonial.first_name }} {{ testimonial.last_name }}</h5>
+                                                    <div>
+                                                        {% for i in range(testimonial.rating) %}
+                                                            <i class="fas fa-star text-warning"></i>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <p class="card-text">{{ testimonial.comment }}</p>
+                                                <p class="card-text text-muted small">
+                                                    <i class="fas fa-calendar-alt me-1"></i> {{ testimonial.created_at.strftime('%d %b, %Y') }}
+                                                    {% if testimonial.event_name %}
+                                                        <span class="ms-3"><i class="fas fa-glass-cheers me-1"></i> {{ testimonial.event_name }}</span>
+                                                    {% endif %}
+                                                </p>
+                                                <div class="d-flex justify-content-end mt-3">
+                                                    <form method="POST" action="{{ url_for('admin.approve_testimonial', testimonial_id=testimonial.testimonial_id) }}" class="me-2">
+                                                        <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                                                    </form>
+                                                    <form method="POST" action="{{ url_for('admin.delete_testimonial', testimonial_id=testimonial.testimonial_id) }}">
+                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this testimonial?')">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">No pending testimonials found.</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Approved Testimonials -->
+                    <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
+                        {% set approved_testimonials = testimonials|selectattr('is_approved', 'equalto', true)|list %}
+                        {% if approved_testimonials %}
+                            <div class="row">
+                                {% for testimonial in approved_testimonials %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <h5 class="card-title mb-0">{{ testimonial.first_name }} {{ testimonial.last_name }}</h5>
+                                                    <div>
+                                                        {% for i in range(testimonial.rating) %}
+                                                            <i class="fas fa-star text-warning"></i>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <p class="card-text">{{ testimonial.comment }}</p>
+                                                <p class="card-text text-muted small">
+                                                    <i class="fas fa-calendar-alt me-1"></i> {{ testimonial.created_at.strftime('%d %b, %Y') }}
+                                                    {% if testimonial.event_name %}
+                                                        <span class="ms-3"><i class="fas fa-glass-cheers me-1"></i> {{ testimonial.event_name }}</span>
+                                                    {% endif %}
+                                                </p>
+                                                <div class="d-flex justify-content-end mt-3">
+                                                    <form method="POST" action="{{ url_for('admin.delete_testimonial', testimonial_id=testimonial.testimonial_id) }}">
+                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this testimonial?')">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">No approved testimonials found.</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- All Testimonials -->
+                    <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
+                        {% if testimonials %}
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Customer</th>
+                                            <th>Event</th>
+                                            <th>Rating</th>
+                                            <th>Comment</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for testimonial in testimonials %}
+                                            <tr>
+                                                <td>{{ testimonial.testimonial_id }}</td>
+                                                <td>{{ testimonial.first_name }} {{ testimonial.last_name }}</td>
+                                                <td>{{ testimonial.event_name or 'N/A' }}</td>
+                                                <td>
+                                                    {% for i in range(testimonial.rating) %}
+                                                        <i class="fas fa-star text-warning"></i>
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ testimonial.comment|truncate(50) }}</td>
+                                                <td>
+                                                    {% if testimonial.is_approved %}
+                                                        <span class="badge bg-success">Approved</span>
+                                                    {% else %}
+                                                        <span class="badge bg-warning text-dark">Pending</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ testimonial.created_at.strftime('%d %b, %Y') }}</td>
+                                                <td>
+                                                    {% if not testimonial.is_approved %}
+                                                        <form method="POST" action="{{ url_for('admin.approve_testimonial', testimonial_id=testimonial.testimonial_id) }}" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-success">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                        </form>
+                                                    {% endif %}
+                                                    <form method="POST" action="{{ url_for('admin.delete_testimonial', testimonial_id=testimonial.testimonial_id) }}" class="d-inline">
+                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this testimonial?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">No testimonials found.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

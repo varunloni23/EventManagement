@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Event Management Kerala{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="page-header py-5 bg-dark text-white text-center">
+    <div class="container">
+        <h1 class="display-4">About Us</h1>
+        <p class="lead">Learn more about Event Management Kerala</p>
+    </div>
+</section>
+
+<!-- About Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <h2>Our Story</h2>
+                <p>Event Management Kerala was founded in 2010 with a vision to transform the event planning industry in Kerala. What started as a small team of passionate event planners has now grown into one of the most trusted event management companies in the region.</p>
+                <p>Over the years, we have successfully planned and executed thousands of events, from intimate gatherings to grand celebrations, always maintaining our commitment to excellence and customer satisfaction.</p>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <img src="{{ url_for('static', filename='images/about-team.jpg') }}" class="img-fluid rounded shadow" alt="Our Team">
+            </div>
+        </div>
+        
+        <div class="row my-5">
+            <div class="col-12 text-center mb-4">
+                <h2>Why Choose Us</h2>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-4" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-lightbulb fa-2x"></i>
+                        </div>
+                        <h4>Creative Excellence</h4>
+                        <p>Our team of creative professionals brings fresh and innovative ideas to every project, ensuring your event stands out.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-4" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-check-double fa-2x"></i>
+                        </div>
+                        <h4>Attention to Detail</h4>
+                        <p>We meticulously plan every aspect of your event, ensuring nothing is overlooked and everything runs smoothly.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-4" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-handshake fa-2x"></i>
+                        </div>
+                        <h4>Personalized Service</h4>
+                        <p>We believe in building relationships with our clients, understanding their vision, and delivering personalized experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5 text-white text-center" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ url_for('static', filename='images/cta-bg.jpg') }}') center/cover no-repeat;">
+    <div class="container py-5">
+        <h2 class="mb-4">Ready to Plan Your Next Event?</h2>
+        <p class="lead mb-4">Let our team of experts help you create a memorable experience</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('common.contact') }}" class="btn btn-primary btn-lg">Contact Us</a>
+            <a href="{{ url_for('common.services') }}" class="btn btn-outline-light btn-lg">Our Services</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
