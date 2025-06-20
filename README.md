@@ -103,3 +103,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Bootstrap for the responsive design components
 - Font Awesome for the icons
 - Google Fonts for the typography # EventManagement
+# EventManagemnt
